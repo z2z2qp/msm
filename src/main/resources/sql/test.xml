@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.dao.UserDao">
+	<resultMap id="User" type="com.example.entity.Student">
+		<id column="stuid" property="stuid" jdbcType="INTEGER" javaType="int"/>
+		<result column="romid" property="romid" jdbcType="INTEGER" javaType="int" />
+		<result column="name" property="name" jdbcType="VARCHAR" javaType="String" />
+		<result column="age" property="age" jdbcType="INTEGER" javaType="int" />
+		<result column="born" property="born" jdbcType="DATE" javaType="java.util.Date" />
+	</resultMap>
+
+	<select id="queryUserByLogingName" parameterType="String" resultMap="User">
+		SELECT * FROM student WHERE name = #{loginName}
+	</select>
+	<select id="queryAllUser" resultMap="User">
+		SELECT * FROM student
+	</select>
+	
+</mapper>

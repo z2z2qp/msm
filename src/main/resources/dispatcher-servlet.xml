@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+	http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+    <!-- 自动扫描Spring注解配置 -->
+    <context:component-scan base-package="com" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <context:annotation-config/>
+
+
+    <!-- 添加json转换器，使用fastjson -->
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="true">
+            <bean id="fastJsonHttpMessageConverter"  class="com.will.framework.FastJsonWithFilterHttpMessageConverter">
+                <property name="supportedMediaTypes" value="application/json;charset=UTF-8"/>
+                <property name="features">
+                    <array>
+                        <!-- 输出key时是否使用双引号,默认为true -->
+                        <value>QuoteFieldNames</value>
+                        <!-- 是否输出值为null的字段,默认为false -->
+                        <value>WriteMapNullValue</value>
+                        <!-- 数值字段如果为null,输出为0,而非null -->
+                        <value>WriteNullNumberAsZero</value>
+                        <!-- List字段如果为null,输出为[],而非null -->
+                        <value>WriteNullListAsEmpty</value>
+                        <!-- Boolean字段如果为null,输出为false,而非null -->
+                        <value>WriteNullBooleanAsFalse</value>
+                        <!-- 字符类型字段如果为null,输出为"",而非null -->
+                        <value>WriteNullStringAsEmpty</value>
+                        <!--枚举类型toString输出-->
+                        <value>WriteEnumUsingToString</value>
+                        <!-- 禁止使用$进行循环检查引用， 设置此属性后，
+                        需要配置hibernateJsonFilter使在hibernate的lazy模式下，
+                        不序列化未加载的属性，因此也不会出现json循环关联的情况 -->
+                        <value>DisableCircularReferenceDetect</value>
+                    </array>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <!-- 配置视图解析器 (该配置的是jstl解析器的一个扩展解析类) -->
+    <bean
+            class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+
+    <!-- 配置文件上传解析器 -->
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"></property>
+        <property name="maxUploadSize" value="10485760000"></property>
+        <property name="maxInMemorySize" value="40960"></property>
+    </bean>
+    <!-- 配置拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/api/**"/>
+            <bean class="com.will.framework.APICheckInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>

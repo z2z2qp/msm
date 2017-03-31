@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC  
+    "-//mybatis.org//DTD Config 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties>
+		<property name="paginator" value="com.will.utils.pageinterceptor.MySqlPaginator"/>
+	</properties>
+	<plugins>
+		<plugin interceptor="com.will.utils.pageinterceptor.PageHelper">
+		</plugin>
+	</plugins>
+	<mappers>
+		<mapper resource="sql/test.xml" />
+	</mappers>
+</configuration>
