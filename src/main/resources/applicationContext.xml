@@ -38,16 +38,14 @@
     </bean>
 
     <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource">
-            <ref bean="dataSource" />
-        </property>
-        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>
 
 
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"></property>
+        <property name="dataSource" ref="dataSource"/>
     </bean>
     <!-- 配置声明式事务：在Service实现类或者public实现方法上使用注解@Transactional，则此类或方法就会启用事务机制 -->
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
@@ -68,10 +66,12 @@
         </bean>
     </mvc:interceptors>
     <bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
-        <property name="mapperInterface" value="com.example.dao.UserDao"></property>
-        <property name="sqlSessionFactory">
-            <ref bean="sessionFactory"/>
-        </property>
+        <property name="mapperInterface" value="com.example.dao.UserDao"/>
+        <property name="sqlSessionFactory" ref="sessionFactory"/>
+    </bean>
+    <bean id="loginLockDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.will.framework.dao.LoginLockDao"/>
+        <property name="sqlSessionFactory" ref="sessionFactory"/>
     </bean>
 
 </beans>

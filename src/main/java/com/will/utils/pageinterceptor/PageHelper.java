@@ -1,4 +1,4 @@
-/**
+/*
  * @Title PageHelper.java
  * @Package com.chuangyuan.util.pageinterceptor
  * @Description
@@ -8,30 +8,23 @@
  */
 package com.will.utils.pageinterceptor;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-import java.util.Properties;
-
+import com.will.framework.dao.PageResult;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
-import org.apache.ibatis.plugin.Interceptor;
-import org.apache.ibatis.plugin.Intercepts;
-import org.apache.ibatis.plugin.Invocation;
-import org.apache.ibatis.plugin.Plugin;
-import org.apache.ibatis.plugin.Signature;
+import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
 import org.apache.ibatis.session.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.sql.*;
+import java.util.List;
+import java.util.Properties;
 
 
 /**
@@ -48,30 +41,34 @@ public class PageHelper implements Interceptor {
 	
 	private Properties properties;
 	
-	private Paginator paginator;
+	private Pageinator paginator;
 	
 	private static final Logger log = LoggerFactory.getLogger(PageHelper.class);
 	
 	@SuppressWarnings("rawtypes")
-	public static final ThreadLocal<Page> localPage = new ThreadLocal<Page>();
+	public static final ThreadLocal<PageResult> localPage = new ThreadLocal<>();
 	
 	@SuppressWarnings("rawtypes")
 	public static void startPage(int page,int rows){
-		Page p = new Page(page,rows);
+		PageResult p = new PageResult(page,rows);
 		localPage.set(p);
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public static final Page endPage(){
-		Page page = localPage.get();
+	public static final PageResult endPage(){
+		PageResult page = localPage.get();
 		localPage.remove();
 		return page;
 	}
+
 	/**
-	 * @see Interceptor#intercept(Invocation)
-	 * @param arg0
-	 * @return
-	 * @throws Throwable 
+	 * Intercept object.
+	 *
+	 * @param invocation the invocation
+	 * @return the object
+	 * @throws Throwable the throwable
+	 * @Auth Will
+	 * @Date 2017 -05-05 14:09:56
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
@@ -93,10 +90,10 @@ public class PageHelper implements Interceptor {
 			Configuration configuration = (Configuration) metaObject.getValue("delegate.configuration");
 			String className = configuration.getVariables().getProperty("paginator");
 			
-			this.paginator = (Paginator) Class.forName(className).newInstance();
+			this.paginator = (Pageinator) Class.forName(className).newInstance();
 			
 			MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
-			Page page = localPage.get();
+			PageResult page = localPage.get();
 			BoundSql boundSql = (BoundSql) metaObject.getValue("delegate.boundSql");
 			String sql = boundSql.getSql();
 			String pageSql = paginator.getPaginatedSql(sql, page);
@@ -106,17 +103,20 @@ public class PageHelper implements Interceptor {
 			return invocation.proceed();
 		}else if(invocation.getTarget() instanceof ResultSetHandler){
 			Object result = invocation.proceed();
-			Page page = localPage.get();
-			page.setResult((List) result);
+			PageResult page = localPage.get();
+			page.setData((List) result);
 			return result;
 		}
 		return null;
 	}
 
 	/**
-	 * @see Interceptor#plugin(Object)
-	 * @param target
-	 * @return 
+	 * Plugin object.
+	 *
+	 * @param target the target
+	 * @return the object
+	 * @Auth Will
+	 * @Date 2017 -05-05 14:10:29
 	 */
 	@Override
 	public Object plugin(Object target) {
@@ -128,8 +128,9 @@ public class PageHelper implements Interceptor {
 	}
 
 	/**
-	 * @see Interceptor#setProperties(Properties)
-	 * @param properties
+	 * Sets properties.
+	 *
+	 * @param properties the properties
 	 */
 	@Override
 	public void setProperties(Properties properties) {
@@ -137,18 +138,18 @@ public class PageHelper implements Interceptor {
 	}
 
 	/**
-	 * 
+	 *
 	 * <p>Title: setPageParameter</p>
-	 * <p>Description:</p> 
+	 * <p>Description:</p>
 	 * @author 庄佳彬
 	 * @Date 2016年2月26日
-	 * @param sql
-	 * @param connection
-	 * @param statement
-	 * @param boundSql
+	 * @param sql sql
+	 * @param connection connection
+	 * @param statement statement
+	 * @param boundSql boundSql
 	 * @param page void
 	 */
-	private void setPageParameter(String sql, Connection connection, MappedStatement statement,BoundSql boundSql,Page<?> page){
+	private void setPageParameter(String sql, Connection connection, MappedStatement statement,BoundSql boundSql,PageResult<?> page){
 		String countSql = " select count(0) from ("+sql+") as tt";
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -157,12 +158,12 @@ public class PageHelper implements Interceptor {
 			BoundSql bs = new BoundSql(statement.getConfiguration(), countSql, boundSql.getParameterMappings(), boundSql.getParameterObject());
 			setParameters(stmt,statement,bs,boundSql.getParameterObject());
 			rs = stmt.executeQuery();
-			long totalCount = 0;
+			int totalCount = 0;
 			if(rs.next()){
-				totalCount = rs.getLong(1);
+				totalCount = rs.getInt(1);
 			}
 			page.setTotal(totalCount);
-			int totalPage = (int) (totalCount / page.getPageSize() + ((totalCount % page.getPageSize() == 0) ? 0 : 1));
+			int totalPage = (int) (totalCount / page.getRows() + ((totalCount % page.getRows() == 0) ? 0 : 1));
 			page.setPages(totalPage);
 		}catch(SQLException e){
 			log.error("异常", e);
@@ -170,13 +171,13 @@ public class PageHelper implements Interceptor {
 			if(rs != null){
 				try {
 					rs.close();
-				} catch (SQLException e) {
+				} catch (SQLException ignored) {
 				}
 			}
 			if(stmt != null){
 				try {
 					stmt.close();
-				} catch (SQLException e) {
+				} catch (SQLException ignored) {
 				}
 			}
 		}
@@ -188,10 +189,10 @@ public class PageHelper implements Interceptor {
 	 * <p>Description:</p> 
 	 * @author 庄佳彬
 	 * @Date 2016年5月9日
-	 * @param stmt
-	 * @param statement
-	 * @param boundSql
-	 * @param parameterObject
+	 * @param stmt stmt
+	 * @param statement statement
+	 * @param boundSql boundSql
+	 * @param parameterObject parameterObject
 	 * @throws SQLException void
 	 */
 	private void setParameters(PreparedStatement stmt,
@@ -203,14 +204,14 @@ public class PageHelper implements Interceptor {
 	/**
 	 * @return the paginator
 	 */
-	public Paginator getPaginator() {
+	public Pageinator getPaginator() {
 		return paginator;
 	}
 
 	/**
 	 * @param paginator the paginator to set
 	 */
-	public void setPaginator(Paginator paginator) {
+	public void setPaginator(Pageinator paginator) {
 		this.paginator = paginator;
 	}
 

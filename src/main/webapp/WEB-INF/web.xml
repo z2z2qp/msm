@@ -51,6 +51,14 @@
     <url-pattern>*.htm</url-pattern>
   </servlet-mapping>
   <servlet>
+    <servlet-name>core</servlet-name>
+    <servlet-class>com.wechat.servlet.CoreServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>core</servlet-name>
+    <url-pattern>/core</url-pattern>
+  </servlet-mapping>
+  <servlet>
     <servlet-name>dispatcher</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class><init-param>
     <param-name>contextConfigLocation</param-name>

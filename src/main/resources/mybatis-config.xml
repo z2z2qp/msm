@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<properties>
-		<property name="paginator" value="com.will.utils.pageinterceptor.MySqlPaginator"/>
+		<property name="paginator" value="com.will.utils.pageinterceptor.MysqlPageinator"/>
 	</properties>
 	<plugins>
 		<plugin interceptor="com.will.utils.pageinterceptor.PageHelper">
@@ -12,5 +12,6 @@
 	</plugins>
 	<mappers>
 		<mapper resource="sql/test.xml" />
+		<mapper resource="sql/loginLock.xml" />
 	</mappers>
 </configuration>

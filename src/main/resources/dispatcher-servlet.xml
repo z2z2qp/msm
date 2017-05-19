@@ -22,7 +22,7 @@
         <mvc:message-converters register-defaults="true">
             <bean id="fastJsonHttpMessageConverter"  class="com.will.framework.FastJsonWithFilterHttpMessageConverter">
                 <property name="supportedMediaTypes" value="application/json;charset=UTF-8"/>
-                <property name="features">
+                <property name="fastJsonConfig.serializerFeatures">
                     <array>
                         <!-- 输出key时是否使用双引号,默认为true -->
                         <value>QuoteFieldNames</value>
@@ -50,22 +50,27 @@
     <!-- 配置视图解析器 (该配置的是jstl解析器的一个扩展解析类) -->
     <bean
             class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/"></property>
-        <property name="suffix" value=".jsp"></property>
+        <property name="prefix" value="/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
 
     <!-- 配置文件上传解析器 -->
     <bean id="multipartResolver"
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="defaultEncoding" value="utf-8"></property>
-        <property name="maxUploadSize" value="10485760000"></property>
-        <property name="maxInMemorySize" value="40960"></property>
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxUploadSize" value="10485760000"/>
+        <property name="maxInMemorySize" value="40960"/>
     </bean>
     <!-- 配置拦截器 -->
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/api/**"/>
-            <bean class="com.will.framework.APICheckInterceptor"></bean>
+            <bean class="com.will.framework.interceptor.APICheckInterceptor"/>
+        </mvc:interceptor>
+        <!--TODO 登录接口根据实际修改-->
+        <mvc:interceptor>
+            <mvc:mapping path="/user/login.form"/>
+            <bean class="com.will.framework.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

@@ -38,14 +38,14 @@
         }
         function re(){
             var verifyImg = document.getElementById("verifyImg");
-            verifyImg.src = "${pageContext.request.contextPath }/verifyCode/verifyCode.form?t="+Math.random();
+            verifyImg.src = "${pageContext.request.contextPath }/user/verifyCode.form?t="+Math.random();
         }
         setTimeout(re,100);
     </script>
 </head>
 <body>
 $END$
-<a href="${pageContext.request.contextPath }/api/user/login.form?loginName=will&password=admin&sign=D71DFF9DC1B6BA2158B807CCEA10FCC3"><spring:message code="login"/></a><br>
+<a href="${pageContext.request.contextPath }/user/login.form?loginName=will&password=admin&sign=D71DFF9DC1B6BA2158B807CCEA10FCC3"><spring:message code="login"/></a><br>
 <a href="${pageContext.request.contextPath }/api/user/queryAll.form?page=1&rows=10&sign=156FC68A4F6143B337E61CB8C3937BB5"><spring:message code="seachAll"/></a><br>
 <span  onclick="onONon()">查询全部</span><br>
 <img id="verifyImg" src="" onclick="re(this)" >

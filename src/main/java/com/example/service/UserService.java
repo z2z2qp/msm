@@ -1,8 +1,8 @@
 package com.example.service;
 
 import com.example.entity.Student;
+import com.will.framework.dao.PageResult;
 import com.will.framework.service.BaseService;
-import com.will.utils.pageinterceptor.Page;
 
 /**
  * Created by Will on 2016/8/15 14:32.
@@ -10,5 +10,5 @@ import com.will.utils.pageinterceptor.Page;
 public interface UserService extends BaseService {
     Student checkUser(String loginName, String password);
 
-    Page<Student> queryAllUser(int page, int rows);
+    PageResult<Student> queryAllUser(int page, int rows);
 }

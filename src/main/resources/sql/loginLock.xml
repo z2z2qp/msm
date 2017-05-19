@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.will.framework.dao.LoginLockDao">
+	<resultMap id="LoginLock" type="com.will.framework.entity.LoginLock">
+		<id column="login_name" property="loginName" jdbcType="VARCHAR" javaType="String"/>
+		<result column="login_count" property="loginCount" jdbcType="INTEGER" javaType="Integer" />
+		<result column="lock_time" property="lockTime" jdbcType="BIGINT" javaType="Long" />
+	</resultMap>
+
+	<select id="getLoginLockByLoginName" parameterType="String" resultMap="LoginLock">
+		SELECT * FROM login_lock WHERE login_name = #{loginName}
+	</select>
+
+	<insert id="saveOrUpdate" parameterType="com.will.framework.entity.LoginLock">
+		INSERT INTO login_lock (
+			login_name,
+			login_count,
+			lock_time
+		)VALUES (
+			#{loginName},
+			#{loginCount},
+			#{lockTime}
+		) ON duplicate KEY UPDATE
+			login_name = #{loginName},
+			login_count = #{loginCount},
+			lock_time = #{lockTime}
+
+	</insert>
+</mapper>
