@@ -29,12 +29,12 @@ object HexByteUtils {
 
     /**
      * 将16进制字符串转换成字节数组
-     * @param hexString
+     * @param hexStr
      * *
      * @return
      */
-    fun hexStringToByteArray(hexString: String?): ByteArray? {
-        var hexString = hexString
+    fun hexStringToByteArray(hexStr: String?): ByteArray? {
+        var hexString = hexStr
         if (hexString == null || hexString == "") {
             return null
         }

@@ -1,7 +1,6 @@
 package com.will.utils.scure
 
 import com.will.utils.HexByteUtils
-import com.will.utils.StringUtils
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -17,7 +16,7 @@ object AesSecure{
      * AES 加密
      */
     fun encode(plaintText:String,secKey:String):String?{
-        if (StringUtils.isNotBlank(plaintText) && StringUtils.isNotBlank(secKey)){
+        if (plaintText.isNotEmpty() && secKey.isNotEmpty()){
             try {
                 val  kgen = KeyGenerator.getInstance("AES")
                 kgen.init(128, SecureRandom(secKey.toByteArray()))
@@ -42,7 +41,7 @@ object AesSecure{
      * AES 解密
      */
     fun decode(cipherText:String,secKey:String):String?{
-        if (StringUtils.isNotBlank(cipherText) && StringUtils.isNotBlank(secKey)){
+        if (cipherText.isNotEmpty() && secKey.isNotEmpty()){
             try {
                 val kgen = KeyGenerator.getInstance("AES")
                 kgen.init(128, SecureRandom(secKey.toByteArray()))

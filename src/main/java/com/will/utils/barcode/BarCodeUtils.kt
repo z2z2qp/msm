@@ -4,7 +4,6 @@ import com.google.zxing.*
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import com.will.utils.FileUtils
-import com.will.utils.StringUtils
 import java.awt.image.BufferedImage
 import java.io.File
 import java.io.OutputStream
@@ -38,7 +37,7 @@ object BarCodeUtils{
                 image.setRGB(x, y, if (bitMatrix.get(x, y))  0xFF000000.toInt() else 0xFFFFFFFF.toInt())
             }
         }
-        if(StringUtils.isBlank(imgPath)){
+        if(imgPath.isNullOrBlank()){
             return image
         }
         insertImage(image, imgPath, needCompress);

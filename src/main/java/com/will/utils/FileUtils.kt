@@ -129,7 +129,7 @@ object FileUtils : org.apache.commons.io.FileUtils() {
      * @return
      */
     fun getMd5ByFile(input:InputStream):String{
-        var value = ""
+        val value:String
         val md5 = MessageDigest.getInstance("MD5")
         val byteIterator = BufferedInputStream(input).iterator()
         while (byteIterator.hasNext()){

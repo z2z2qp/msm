@@ -2,7 +2,6 @@ package com.wechat.servlet
 
 import com.will.utils.HexByteUtils
 import com.will.utils.PropertyLoader
-import com.will.utils.StringUtils
 import com.will.utils.Value
 import com.will.utils.xml.XMLObject
 import com.will.utils.xml.XMLUtils
@@ -95,7 +94,7 @@ class CoreServlet : HttpServlet() {
                     returnStr = ask.getProperty("error")
                 }
             }
-            if(StringUtils.isBlank(returnStr)){
+            if(returnStr.isNullOrBlank()){
                 writer.print("success")
             }else{
                 var message = WXMessage(Value.ofEmpty(fromUserName.getValue()),Value.ofEmpty(toUserName.getValue()),System.currentTimeMillis() / 1000,WXMessage.MessageType.TEXT,returnStr!!)

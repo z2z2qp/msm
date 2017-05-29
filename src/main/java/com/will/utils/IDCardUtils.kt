@@ -92,7 +92,7 @@ object IDCardUtils{
         } else {
             strYear = "19"
         }
-        newId = StringUtils.insert(newId, strYear, 6)
+        newId = newId.insert(strYear, 6)
         return newId + getChecksum(newId.toCharArray())
     }
 
@@ -133,7 +133,7 @@ object IDCardUtils{
         } else {
             throw VisionagentException(ExceptionCode.ERROR_ID_CARD_LENGTH)
         }
-        return NumberUtils.isOdd(c - '0')
+        return (c - '0').isOdd()
     }
 
     /**

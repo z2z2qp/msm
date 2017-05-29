@@ -225,7 +225,7 @@ object XMLUtils {
         }
         //        System.out.println(element);
         val elements = element.elements() as List<Element>
-        if (elements.size == 0) {//没有子节点即标签内文本设置key为value
+        if (elements.isEmpty()) {//没有子节点即标签内文本设置key为value
             `object`.put("value", element.textTrim)
             //            if (!element.isRootElement()) {
             //                return element.getTextTrim();

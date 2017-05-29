@@ -2,9 +2,9 @@ package com.will.utils.map.baidu
 
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONObject
-import com.will.utils.CollectionUtils
 import com.will.utils.PropertyLoader
 import com.will.utils.Value
+import com.will.utils.isNullOrEmpty
 import com.will.utils.map.GeoPoint
 import com.will.utils.map.MapUtils
 import com.will.utils.scure.Md5Secure
@@ -231,7 +231,7 @@ object BaiduUtils: MapUtils() {
      */
     override fun distance(p1: GeoPoint, p2: GeoPoint): Double {
         val distances = distances(p1, p2)
-        if (CollectionUtils.isEmpty(distances)) {
+        if (distances.isNotEmpty()) {
             return distances!![0]
         } else {
             return 0.0
@@ -250,7 +250,7 @@ object BaiduUtils: MapUtils() {
      * *
      * @Date 2016 -08-31 09:37:13
      */
-    fun distances(vararg ps: GeoPoint): List<Double>? {
+    fun distances(vararg ps: GeoPoint): List<Double> {
         try {
             val sb = StringBuilder()
             val paramsMap = LinkedHashMap<String, String>()
@@ -284,7 +284,7 @@ object BaiduUtils: MapUtils() {
             log.error("计算两点距离异常", e)
         }
 
-        return null
+        return Collections.emptyList()
     }
 
     private fun getDistances(resultJson: String): List<Double> {

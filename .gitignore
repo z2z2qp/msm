@@ -12,6 +12,6 @@
 hs_err_pid*
 target/
 out/
-msm.iml
+*.iml
 .idea
 .idea/
