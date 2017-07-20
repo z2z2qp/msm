@@ -2,6 +2,7 @@ package com.will.test
 
 import com.will.utils.DateTimeUtils
 import com.will.utils.KVEntry
+import com.will.utils.nextString
 import com.will.utils.scure.Md5Secure
 import java.util.*
 
@@ -20,4 +21,5 @@ fun main(args:Array<String>){
     val kv = KVEntry<Any,Any>(a,b)
     kv.k = s!!
     println(kv)
+    println(Random().nextString())
 }
