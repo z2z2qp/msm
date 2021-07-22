@@ -35,7 +35,7 @@ class UserController : BaseController() {
     var llService:LoginLockService? = null
 
     @ResponseBody
-    @RequestMapping(value = "/login", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = arrayOf("/login"), method = arrayOf(RequestMethod.GET))
     fun login(loginName:String,password:String):Result{
         var result:Result?
         val ll:LoginLock = llService!!.getLoginLockByLoginName(loginName)
@@ -55,7 +55,7 @@ class UserController : BaseController() {
 
 
     @ResponseBody
-    @RequestMapping(value = "/verifyCode", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = arrayOf("/verifyCode"), method = arrayOf(RequestMethod.GET))
     fun verifyCode(widthInt:Int?,heightInt:Int?,verifySizeInt:Int?) {
         try {
             val four:Int = 4
@@ -79,7 +79,7 @@ class UserController : BaseController() {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/check", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = arrayOf("/check"), method = arrayOf(RequestMethod.GET))
     fun check(token:String):Result {
         service!!.checkToken(token);
         return resultError(ControllerCode.INVALID_TOKEN);
@@ -87,13 +87,13 @@ class UserController : BaseController() {
 
 
     @ResponseBody
-    @RequestMapping(value = "/queryAll", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = arrayOf("/queryAll"), method = arrayOf(RequestMethod.GET))
     fun queryAll(page:Int, rows:Int):Result {
         return resultOK(service!!.queryAllUser(page, rows))
     }
 
     @ResponseBody
-    @RequestMapping(value = "/test", method = arrayOf(RequestMethod.POST))
+    @RequestMapping(value = arrayOf("/test"), method = arrayOf(RequestMethod.POST))
     fun test(token:Array<String>):Result {
         log.info(Value.ofEmpty(token))
         return resultOK(token)
