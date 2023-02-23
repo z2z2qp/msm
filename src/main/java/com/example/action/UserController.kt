@@ -10,6 +10,7 @@ import com.will.framework.entity.LoginLock
 import com.will.framework.service.LoginLockService
 import com.will.utils.Value
 import com.will.utils.VerifyCodeUtils
+import jakarta.annotation.Resource
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.ResponseBody
 import java.io.IOException
 import java.io.OutputStream
-import javax.annotation.Resource
 
 /**
  * Created by zoumy on 2017/5/11 10:08.

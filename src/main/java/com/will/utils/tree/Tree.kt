@@ -1,4 +1,4 @@
-package com.will.utils.Tree
+package com.will.utils.tree
 
 import java.util.*
 

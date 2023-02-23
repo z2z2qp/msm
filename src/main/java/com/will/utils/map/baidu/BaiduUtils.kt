@@ -1,10 +1,9 @@
 package com.will.utils.map.baidu
 
-import com.alibaba.fastjson.JSON
-import com.alibaba.fastjson.JSONObject
+import com.alibaba.fastjson2.JSON
+import com.alibaba.fastjson2.JSONObject
 import com.will.utils.PropertyLoader
 import com.will.utils.Value
-import com.will.utils.isNullOrEmpty
 import com.will.utils.map.GeoPoint
 import com.will.utils.map.MapUtils
 import com.will.utils.scure.Md5Secure
@@ -22,7 +21,7 @@ import java.util.*
 /**
  * Created by zoumy on 2017/5/11 15:37.
  */
-object BaiduUtils: MapUtils() {
+object BaiduUtils : MapUtils() {
 
     private val log = LoggerFactory.getLogger(BaiduUtils::class.java)
     private var SK: String? = null//= "zMkeFDU6gTnkAkWMMiw8nElvYhYIGOt4";
@@ -50,7 +49,6 @@ object BaiduUtils: MapUtils() {
     }
 
 
-
     /**
 
      *
@@ -71,7 +69,7 @@ object BaiduUtils: MapUtils() {
             paramsMap.put("ak", AK!!)
             val queryStr = toQueryString(paramsMap)
             val wholeStr = "/geocoder/v2/?" + queryStr + SK
-            val tempStr:String = URLEncoder.encode(wholeStr, "UTF-8")
+            val tempStr: String = URLEncoder.encode(wholeStr, "UTF-8")
             val SN = Md5Secure.encode(tempStr)!!
             paramsMap.put("sn", SN)
             val url = URL("http://api.map.baidu.com/geocoder/v2/?" + toQueryString(paramsMap))
@@ -146,6 +144,7 @@ object BaiduUtils: MapUtils() {
 
         return null
     }
+
     /**
 
      *
@@ -204,10 +203,10 @@ object BaiduUtils: MapUtils() {
         if ("0" == map["status"].toString()) {
             val list = map["result"] as List<*>
             for (result in list) {
-                result as Map<*,*>
+                result as Map<*, *>
                 val p = GeoPoint()
-                val lng = Value.of(result["x"],Value.DOUBLE_NULL)
-                val lat = Value.of(result["x"],Value.DOUBLE_NULL)
+                val lng = Value.of(result["x"], Value.DOUBLE_NULL)
+                val lat = Value.of(result["x"], Value.DOUBLE_NULL)
                 p.lan = lat!!
                 p.lon = lng!!
                 ps.add(p)
@@ -263,7 +262,7 @@ object BaiduUtils: MapUtils() {
             paramsMap.put("ak", AK!!)
             val queryStr = toQueryString(paramsMap)
             val wholeStr = "/telematics/v3/distance?" + queryStr + SK
-            val tempStr:String = URLEncoder.encode(wholeStr, "UTF-8")
+            val tempStr: String = URLEncoder.encode(wholeStr, "UTF-8")
             val SN = Md5Secure.encode(tempStr)!!
             paramsMap.put("sn", SN)
             val url = URL("http://api.map.baidu.com/telematics/v3/distance?" + toQueryString(paramsMap))
@@ -301,8 +300,12 @@ object BaiduUtils: MapUtils() {
         val queryString = StringBuilder()
         for ((key, value) in data) {
             queryString.append("$key=")
-            queryString.append(URLEncoder.encode(value as String,
-                    "UTF-8") + "&")
+            queryString.append(
+                URLEncoder.encode(
+                    value as String,
+                    "UTF-8"
+                ) + "&"
+            )
         }
         if (queryString.isNotEmpty()) {
             queryString.deleteCharAt(queryString.length - 1)

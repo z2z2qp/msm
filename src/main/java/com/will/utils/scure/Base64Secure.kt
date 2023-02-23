@@ -1,8 +1,7 @@
 package com.will.utils.scure
 
-import sun.misc.BASE64Decoder
-import sun.misc.BASE64Encoder
 import java.io.UnsupportedEncodingException
+import java.util.Base64
 
 /**
  * Created by zoumy on 2017/5/12 12:59.
@@ -19,19 +18,18 @@ object Base64Secure {
         }
 
         if (b != null) {
-            s = BASE64Encoder().encode(b)
+            s = String(Base64.getEncoder().encode(b))
         }
         return s
     }
 
     // 解密
     fun decode(s: String?): String? {
-        var b: ByteArray?
+        val b: ByteArray?
         var result: String? = null
         if (s != null) {
-            val decoder = BASE64Decoder()
             try {
-                b = decoder.decodeBuffer(s)
+                b = Base64.getDecoder().decode(s)
                 result = String(b)
             } catch (e: Exception) {
                 e.printStackTrace()

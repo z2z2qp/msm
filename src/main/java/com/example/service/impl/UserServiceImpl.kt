@@ -1,13 +1,13 @@
-package com.example.service.Impl
+package com.example.service.impl
 
 import com.example.dao.UserDao
 import com.example.entity.Student
 import com.example.service.UserService
 import com.will.framework.dao.PageResult
 import com.will.utils.pageinterceptor.PageHelper
+import jakarta.annotation.Resource
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
-import javax.annotation.Resource
 
 /**
  * Created by zoumy on 2017/5/11 14:50.

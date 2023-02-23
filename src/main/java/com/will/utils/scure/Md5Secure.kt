@@ -20,8 +20,7 @@ object Md5Secure {
                 md.reset()
                 md.update(plaintext.toByteArray())
                 val results = md.digest()
-                val resultString = HexByteUtils.byteArrayToHexString(results)
-                return resultString
+                return HexByteUtils.byteArrayToHexString(results)
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }

@@ -51,7 +51,7 @@ abstract class MapUtils {
         val a = radLat1 - radLat2
         val b = rad(p1.lon) - rad(p2.lon)
         var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2.0) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2.0)))
-        s = s * EARTH_RADIUS
+        s *= EARTH_RADIUS
         return s
     }
 

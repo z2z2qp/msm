@@ -1,4 +1,4 @@
-package com.will.utils.Tree
+package com.will.utils.tree
 
 /**
  * Created by zoumy on 2017/5/11 8:46.
