@@ -10,7 +10,7 @@
     <name>msm</name>
     <url>http://maven.apache.org</url>
     <properties>
-        <spring.version>6.1.14</spring.version> <!--spring 版本号-->
+        <spring.version>6.2.0</spring.version> <!--spring 版本号-->
         <jdk.version>1.8</jdk.version> <!--JDK版本号-->
         <kotlin.version>2.1.0</kotlin.version>
     </properties>
