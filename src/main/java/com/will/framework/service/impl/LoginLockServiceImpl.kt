@@ -3,11 +3,11 @@ package com.will.framework.service.impl
 import com.will.framework.dao.LoginLockDao
 import com.will.framework.entity.LoginLock
 import com.will.framework.service.LoginLockService
+import jakarta.annotation.Resource
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 import java.time.ZoneId
-import javax.annotation.Resource
 
 /**
  * Created by zoumy on 2017/5/11 14:55.

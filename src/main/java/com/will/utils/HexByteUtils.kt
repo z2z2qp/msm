@@ -38,7 +38,7 @@ object HexByteUtils {
         if (hexString == null || hexString == "") {
             return null
         }
-        hexString = hexString.toUpperCase()
+        hexString = hexString.uppercase()
         val length = hexString.length / 2
         val hexChars = hexString.toCharArray()
         val d = ByteArray(length)

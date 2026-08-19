@@ -3,10 +3,10 @@ package com.will.framework.controller
 import com.will.constant.ControllerCode
 import com.will.constant.ExceptionCode
 import com.will.exception.VisionagentException
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpSession
 import org.springframework.web.bind.annotation.ModelAttribute
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
-import javax.servlet.http.HttpSession
 
 /**
  * Created by zoumy on 2017/5/11 13:04.

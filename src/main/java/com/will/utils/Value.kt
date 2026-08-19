@@ -33,7 +33,7 @@ object Value {
         var result = def
         if (obj != null) {
             if (obj.javaClass.isArray) {
-                val className = obj.javaClass.simpleName.toLowerCase()
+                val className = obj.javaClass.simpleName.lowercase()
                 when (className) {
                     "int[]" -> result = toString(obj as IntArray?)
                     "short[]" -> result = toString(obj as ShortArray?)

@@ -18,7 +18,7 @@ open class UserServiceImpl :UserService {
     private val log = LoggerFactory.getLogger(UserServiceImpl::class.java)
 
     @Resource(name = "userDao")
-    private val dao: UserDao = null!!
+    private lateinit var dao: UserDao
 
     override fun checkUser(loginName: String, password: String): Student {
         val u = dao.queryUserByLogingName(loginName)
